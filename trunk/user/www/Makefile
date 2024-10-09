@@ -1,3 +1,4 @@
+
 ifndef ROOTDIR
 ROOTDIR=../..
 endif
@@ -9,12 +10,12 @@ include $(ROOTDIR)/user/shared/boards.mk
 PROJECT_HOME_URL="https:\/\/bitbucket.org\/padavan\/rt-n56u\/"
 PROJECT_HOME_URL_MOD="https:\/\/github.com\/tsl0922\/padavan\/"
 
-LABEL_COPYRIGHT_TEXT='© 2011-2023 <a href="https:\/\/bitbucket.org\/padavan\/rt-n56u" target="blank">Padavan<\/a> \& N56U project community \& <a href="https:\/\/github.com\/hanwckf\/rt-n56u" target="blank">hanwckf<\/a> \& <a href="https:\/\/github.com\/TurBoTse\/padavan" target="blank">TurBoTse<\/a>'
+LABEL_COPYRIGHT_TEXT="© 2011-`date +'%Y'` Padavan \& N56U Project Community. Firmware Compilation Time: `date +'%d.%m.%Y %H:%M:%S'`"
 
 BOARD_PATTERN=s/ZVMODELVZ/$(CONFIG_FIRMWARE_PRODUCT_ID)/g
 COPYR_PATTERN=s/ZVCOPYRVZ/$(LABEL_COPYRIGHT_TEXT)/g
 DWURL_PATTERN=s/ZVDWURLVZ/$(PROJECT_HOME_URL)/g
-DWURL_MOD_PATTERN=s/ZVMODWURLVZ/$(PROJECT_HOME_URL_MOD)/g
+DWURL_MOD_PATTERN=s/ZVMODWURLVZ/$(PROJECT_HOME_URL)/g
 
 WEBUI_NAME=n56u_ribbon_fixed
 
