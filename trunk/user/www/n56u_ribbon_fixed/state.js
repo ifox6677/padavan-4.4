@@ -1,3 +1,4 @@
+
 var sw_mode = '<% nvram_get_x("", "sw_mode"); %>';
 var wan_route_x = '<% nvram_get_x("", "wan_route_x"); %>';
 var wan_proto = '<% nvram_get_x("", "wan_proto"); %>';
@@ -745,9 +746,9 @@ function show_footer(){
 	footer_code = '<div align="center" class="bottom-image"></div>\n';
 	footer_code +='<div align="center" class="copyright"><#footer_copyright_desc#></div>\n';
 	footer_code +='<div align="center">\n';
-	footer_code +='  <span>Highcharts by Torstein Hønsi & <a href="http://www.highcharts.com">Highsoft</a></span></br>\n';
-	footer_code +='  <span>Big icons designed by <a href="http://www.freepik.com">Freepik</a></br></span>\n';
-	footer_code +='  <span>Non-Commercial Use Only</span></br>\n';
+	footer_code += '  <span>\u5927\u7c73\u8def\u7528\u5668</span><br/>\n';
+        footer_code += '  <span>\u8ba9\u4e2d\u56fd\u518d\u6b21\u4f1f\u5927<br/></span>\n';
+        footer_code += '  <span>\u56fa\u4ef6MIT\u6388\u6743\u53ea\u9650\u4e2a\u4eba\u4f7f\u7528\u4e0d\u5f97\u7528\u4e8e\u5546\u4e1a\u7528\u9014\u3002</span><br/>\n';
 	footer_code +='</div>\n';
 
 	$("footer").innerHTML = footer_code;
