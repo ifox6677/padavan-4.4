@@ -745,10 +745,11 @@ function show_footer(){
 	footer_code = '<div align="center" class="bottom-image"></div>\n';
 	footer_code +='<div align="center" class="copyright"><#footer_copyright_desc#></div>\n';
 	footer_code +='<div align="center">\n';
-	footer_code +='  <span>Highcharts by Torstein Hønsi & <a href="http://www.highcharts.com">Highsoft</a></span></br>\n';
-	footer_code +='  <span>Big icons designed by <a href="http://www.freepik.com">Freepik</a></br></span>\n';
-	footer_code +='  <span>Non-Commercial Use Only</span></br>\n';
-	footer_code +='</div>\n';
+    footer_code += '  <span>\u5927\u7C73\u8DEF\u7531\u4E16\u754C\u4E00\u6D41</span><br />\n';
+    footer_code += '  <span>\u672c\u673a\u6709\u83b7GPL\u6388\u6743\u002c\u8054\u5408\u56fd\u8bc1\u8bc1\u8f93\u8f93\u9886\u5c55\u3002</span><br />\n';
+    footer_code += '  <span>\u81EA\u7531\u8F6F\u4F53\u4E0D\u5F97\u5546\u7528</span><br />\n';
+    footer_code += '</div>\n';
+
 
 	$("footer").innerHTML = footer_code;
 
