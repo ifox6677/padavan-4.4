@@ -21,6 +21,7 @@ all: dep tools unpack_trx libc_only libs_only user_only romfs image
 else
 all: dep tools linux libc_only libs_only user_only romfs image
 endif
+
 ############################################################################
 #
 # Get the core stuff worked out
@@ -30,7 +31,7 @@ ROOTDIR        = $(shell pwd)
 HOSTCC         = gcc
 ROMFSINST      = $(ROOTDIR)/tools/romfs-inst.sh
 TFTPDIR        = /tftpboot
-PATH          := $(if $(filter y,$(CONFIG_CCACHE)),$(CONFIG_CROSS_COMPILER_ROOT)/lib/ccache:,)$(CONFIG_CROSS_COMPILER_ROOT)/bin:$(PATH):$(ROOTDIR)/tools
+PATH           := $(if $(filter y,$(CONFIG_CCACHE)),$(CONFIG_CROSS_COMPILER_ROOT)/lib/ccache:,)$(CONFIG_CROSS_COMPILER_ROOT)/bin:$(PATH):$(ROOTDIR)/tools
 
 VERSIONSTR     = $(CONFIG_VENDOR)/$(CONFIG_PRODUCT) Version $(VERSIONPKG)
 
@@ -71,7 +72,6 @@ endif
 # May use a different compiler for the kernel
 KERNEL_CROSS_COMPILE ?= $(CROSS_COMPILE)
 ifneq ($(SUBARCH),)
-# Using UML, so make the kernel and non-kernel with different ARCHs
 MAKEARCH = $(MAKE) ARCH=$(SUBARCH) CROSS_COMPILE=$(CROSS_COMPILE)
 MAKEARCH_KERNEL = $(MAKE) ARCH=$(ARCH) SUBARCH=$(SUBARCH) CROSS_COMPILE=$(KERNEL_CROSS_COMPILE)
 else
@@ -86,6 +86,9 @@ export FIRMWARE_KERNEL_VER FIRMWARE_ROOTFS_VER FIRMWARE_BUILDS_VER FIRMWARE_BUIL
 export VERSIONPKG VERSIONSTR ROMFSINST PATH IMAGEDIR RELFILES TFTPDIR
 export KERNEL_HEADERS_PATH CONFIG_CROSS_COMPILER_ROOT CONFIG_CROSS_COMPILER_PATH
 export CONFIG_CMAKE_TOOLCHAIN_FILE UNSQSHFS_TOOL CONFIG_WITHOUT_KERNEL
+
+# Optimization flags to reduce size
+CFLAGS += -Os -s  # Use optimization for size and strip symbols
 
 ############################################################################
 
