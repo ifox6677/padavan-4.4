@@ -1,17 +1,22 @@
-TOPDIR:=${CURDIR}
-SOURCE_DIR:=$(TOPDIR)/trunk
-TOOLCHAIN_DIR:=$(TOPDIR)/toolchain-mipsel
-TOOLCHAIN_ROOT:=$(TOOLCHAIN_DIR)/toolchain-4.4.x
-TOOLCHAIN_URL:=https://github.com/tsl0922/padavan/releases/download/toolchain/mipsel-linux-uclibc-gcc10.tar.xz
-TEMPLATE_DIR:=$(SOURCE_DIR)/configs/templates
-PRODUCTS:=$(shell ls $(TEMPLATE_DIR) | sed 's/.config//g')
-CONFIG:=$(SOURCE_DIR)/.config
+TOPDIR := ${CURDIR}
+SOURCE_DIR := $(TOPDIR)/trunk
+TOOLCHAIN_DIR := $(TOPDIR)/toolchain-mipsel
+TOOLCHAIN_ROOT := $(TOOLCHAIN_DIR)/toolchain-4.4.x
+TOOLCHAIN_URL := https://github.com/tsl0922/padavan/releases/download/toolchain/mipsel-linux-uclibc-gcc10.tar.xz
+TEMPLATE_DIR := $(SOURCE_DIR)/configs/templates
+PRODUCTS := $(shell ls $(TEMPLATE_DIR) | sed 's/.config//g')
+CONFIG := $(SOURCE_DIR)/.config
 
 all: build
 
+# Define a function to change directories and run commands
+define run_in_dir
+	@cd $1 && $(2)
+endef
+
 toolchain/build:
 	@echo "Building toolchain..."
-	@(cd $(TOOLCHAIN_DIR); \
+	$(call run_in_dir,$(TOOLCHAIN_DIR), \
 		./bootstrap && \
 		./configure --enable-local && \
 		make && \
@@ -20,10 +25,10 @@ toolchain/build:
 	)
 
 toolchain/clean:
-	@(cd $(TOOLCHAIN_DIR); \
-		if [ -f ct-ng ]; then ./ct-ng distclean; fi; \
-		if [ -f Makefile ]; then make distclean; fi; \
-		if [ -d $(TOOLCHAIN_ROOT) ]; then rm -rf $(TOOLCHAIN_ROOT); fi \
+	$(call run_in_dir,$(TOOLCHAIN_DIR), \
+		[ -f ct-ng ] && ./ct-ng distclean; \
+		[ -f Makefile ] && make distclean; \
+		[ -d $(TOOLCHAIN_ROOT) ] && rm -rf $(TOOLCHAIN_ROOT) \
 	)
 
 toolchain/download:
@@ -39,7 +44,7 @@ build: toolchain/download
 		echo "Supported products: $(PRODUCTS)"; \
 		exit 1; \
 	fi
-	$(MAKE) -C $(SOURCE_DIR)
+	$(MAKE) -C $(SOURCE_DIR) -j$(shell nproc)  # Enable parallel build
 
 clean:
 	@if [ ! -f $(CONFIG) ]; then \
@@ -54,4 +59,4 @@ $(PRODUCTS):
 	cp -f $(TEMPLATE_DIR)/$(@).config $(CONFIG)
 	@echo "CONFIG_CROSS_COMPILER_ROOT=$(TOOLCHAIN_ROOT)" >> $(CONFIG)
 	@echo "CONFIG_CCACHE=y" >> $(CONFIG)
-	@make build
+	@make build  # 继续构建
